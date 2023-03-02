@@ -1,0 +1,23 @@
+{
+  "name": "softuni-javascript-applications",
+  "version": "1.0.0",
+  "description": "Tasks from Javascript Applications course in Softuni",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kirilyanev/Softuni-Javascript-Applications.git"
+  },
+  "author": "KY",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kirilyanev/Softuni-Javascript-Applications/issues"
+  },
+  "homepage": "https://github.com/kirilyanev/Softuni-Javascript-Applications#readme",
+  "dependencies": {
+    "chai": "^4.3.7",
+    "mocha": "^10.2.0"
+  }
+}
