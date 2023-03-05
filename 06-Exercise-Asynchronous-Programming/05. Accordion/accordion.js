@@ -42,8 +42,12 @@ function solution() {
                 divAccordion.appendChild(divExtra);
 
                 mainElement.appendChild(divAccordion);
+            }).catch(error =>{
+                console.log(error);
             })
         }
+    }).catch(error => {
+        console.log(error);
     })
 
     function onclick(e){
