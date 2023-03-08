@@ -1,8 +1,7 @@
 {
   "name": "02.phonebook",
   "version": "1.0.0",
-  "description": "",
-  "main": "app.js",
+  "main": "index.html",
   "scripts": {
     "test": "mocha tests",
     "start": "http-server -a localhost -p 3000 -P http://localhost:3000? -c-1"
@@ -11,9 +10,13 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "chai": "^4.3.4",
     "http-server": "0.12.3",
-    "playwright-chromium": "1.9.2",
-    "mocha": "8.3.2",
-    "chai": "4.3.4"
-  }
+    "mocha": "^8.3.2",
+    "playwright-chromium": "^1.9.2"
+  },
+  "directories": {
+    "test": "tests"
+  },
+  "description": ""
 }
