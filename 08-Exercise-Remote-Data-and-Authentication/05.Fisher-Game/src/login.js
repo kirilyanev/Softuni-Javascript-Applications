@@ -40,7 +40,8 @@ function login() {
         }).then(data => {
             sessionStorage.setItem('email', data.email);
             sessionStorage.setItem('accessToken',data.accessToken);
-
+            sessionStorage.setItem('id',data._id);
+            
             loginFormElement.reset();
             window.location.href="./index.html";
         }).catch(err => {

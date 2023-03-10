@@ -21,7 +21,7 @@ function register() {
         }
         const registerData = {
             email: email,
-            password:password
+            password:password,
         }
 
         const options = {
@@ -39,6 +39,7 @@ function register() {
         }).then(data => {
             sessionStorage.setItem("email",email);
             sessionStorage.setItem("password", password);
+            sessionStorage.setItem('id',data._id);
             
             registerFormElement.reset();
             window.location.href="./index.html";
