@@ -14,11 +14,16 @@ async function onLogout() {
 
 function onLoadHTML() {
     const token = sessionStorage.getItem("accessToken");
+    const userName = document.querySelector('p.email span');
     if(token) {
         document.getElementById('guest').style.display = 'none';
+        document.getElementById('user').style.display = 'inline-block';
+        userName.innerHTML = sessionStorage.getItem('email');
     } else {
         document.getElementById('guest').style.display = 'inline-block';
         document.getElementById('user').style.display = 'none';
+        userName.innerHTML = "guest";
+
     }
 }
 
