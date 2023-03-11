@@ -43,6 +43,7 @@ function register() {
             
             registerFormElement.reset();
             window.location.href="./index.html";
+            return data;
         }).catch(err => {
             errNotification.textContent = err;
             setTimeout(()=>{

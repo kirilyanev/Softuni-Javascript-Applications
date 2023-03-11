@@ -1,5 +1,6 @@
 window.addEventListener("DOMContentLoaded", onLoadHTML);
 
+document.getElementById('home').addEventListener('click',onLoadHTML);
 document.getElementById('addForm').addEventListener('submit', createCatch);
 document.getElementById('logout').addEventListener('click', onLogout);
 document.getElementsByClassName('load')[0].addEventListener('click', loadCatches);
@@ -12,13 +13,27 @@ async function onLogout() {
 
     const response = await fetch(url, header);
     sessionStorage.clear();
-    onLoadHTML();
+    window.location.href="./index.html";
 }
 
 function onLoadHTML() {
     const token = sessionStorage.getItem("accessToken");
     const userName = document.querySelector('p.email span');
     const addBtn = document.querySelector('.add');
+    const addCatchFieldset = document.querySelector('#addForm fieldset')
+    document.querySelector('#catches').replaceChildren();
+    // TEST
+    // const catches = document.querySelectorAll('#catches .catch');
+    // console.log(catches);
+    // console.log(typeof catches);
+    // console.log(catches.length);
+    // catches.replaceChildren();
+
+
+
+    if(token != null) {
+        addCatchFieldset.disabled = false;
+    }
 
     if (token) {
         document.getElementById('guest').style.display = 'none';
@@ -31,12 +46,23 @@ function onLoadHTML() {
         userName.innerHTML = "guest";
         addBtn.disabled = true;
     }
+
+    const catches = document.getElementById('catches');
+    catches.style.display = "none";
+    const p = document.getElementById('remove-onLoad');
+    p.style.display = "block";
 }
 
 function loadCatches() {
     const url = 'http://localhost:3030/data/catches';
-    const catchesElement = document.getElementById('catches');
-    catchesElement.replaceChildren();
+    
+    const divCatchesElement = document.getElementById('catches');
+    const p = document.getElementById('remove-onLoad');
+    const catches = document.getElementById('catches');
+
+    divCatchesElement.replaceChildren();
+    catches.style.display = "inline-table";
+    p.style.display = "none";
 
     fetch(url).then(response => {
         return response.json();
@@ -45,32 +71,115 @@ function loadCatches() {
             const div = document.createElement('div');
             div.classList = 'catch';
             div.innerHTML = `<label>Angler</label>
-            <input type="text" class="angler" value="${currCatch.angler}">
+            <input type="text" class="angler" data-ownerId="${currCatch._ownerId}" value="${currCatch.angler}" disabled>
             <label>Weight</label>
-            <input type="text" class="weight" value="${currCatch.weight}">
+            <input type="text" class="weight" data-ownerId="${currCatch._ownerId}" value="${currCatch.weight}" disabled>
             <label>Species</label>
-            <input type="text" class="species" value="${currCatch.species}">
+            <input type="text" class="species" data-ownerId="${currCatch._ownerId}" value="${currCatch.species}" disabled>
             <label>Location</label>
-            <input type="text" class="location" value="${currCatch.location}">
+            <input type="text" class="location" data-ownerId="${currCatch._ownerId}" value="${currCatch.location}" disabled>
             <label>Bait</label>
-            <input type="text" class="bait" value="${currCatch.bait}">
+            <input type="text" class="bait" data-ownerId="${currCatch._ownerId}" value="${currCatch.bait}" disabled>
             <label>Capture Time</label>
-            <input type="number" class="captureTime" value="${currCatch.captureTime}">
-            <button class="update" data-id="${currCatch._id}" disabled>Update</button>
-            <button class="delete" data-id="${currCatch._id}" disabled>Delete</button>`;
+            <input type="number" class="captureTime" data-ownerId="${currCatch._ownerId}" value="${currCatch.captureTime}" disabled>`;
 
-            catchesElement.appendChild(div);
+
+            const updateBtn = document.createElement('button');
+            updateBtn.classList = "update";
+            updateBtn.setAttribute("data-ownerId", currCatch._ownerId);
+            updateBtn.setAttribute("id",currCatch._id);
+            updateBtn.disabled = true;
+            updateBtn.textContent = "Update";
+
+            const deleteBtn = document.createElement('button');
+            deleteBtn.classList = "delete";
+            deleteBtn.setAttribute("data-ownerId", currCatch._ownerId);
+            deleteBtn.setAttribute("id",currCatch._id);
+            deleteBtn.disabled = true;
+            deleteBtn.textContent = "Delete";
+
+            updateBtn.addEventListener('click',(ev)=> updateCatch(ev));
+            deleteBtn.addEventListener('click',(ev)=> deleteCatch(ev));
+
+            div.appendChild(updateBtn);
+            div.appendChild(deleteBtn);
+
+            divCatchesElement.appendChild(div);
+
         }
 
         // Enable update/delete buttons for loged user
         const catchesButtons = Array.from(document.querySelectorAll('#catches button'));
+        const inputElements = document.querySelectorAll('#catches input');
 
         for (let button of catchesButtons) {
-            if (button.getAttribute('data-id') == sessionStorage.getItem('id')) {
+            if (button.getAttribute('data-ownerId') == sessionStorage.getItem('id')) {
                 button.disabled = false;
             };
         }
+        for (let input of inputElements) {
+            if(input.getAttribute('data-ownerId') == sessionStorage.getItem('id')) {
+                input.disabled = false;
+            }
+        }
+    })
+}
 
+function updateCatch(ev) {
+    const inputElements =Object.values(ev.target.parentElement.querySelectorAll('input'));
+    const id = ev.target.id;
+    const url = `http://localhost:3030/data/catches/${id}`;
+    const token = sessionStorage.getItem("accessToken");
+    
+    const body = {
+        angler: inputElements[0].value,
+        weight: inputElements[1].value,
+        species: inputElements[2].value,
+        location: inputElements[3].value,
+        bait: inputElements[4].value,
+        captureTime: inputElements[5].value
+    };
+    
+    const options = {
+        method: "PUT",
+        headers: {
+            "Content-type": "application/json",
+            "X-Authorization": token
+        },
+        body: JSON.stringify(body)
+    }
+
+    fetch(url,options).then(respond => {
+        return respond.json();
+    }).then(data => {
+        loadCatches();
+        return data;
+    }).catch(err => {
+        alert(err);
+    })
+}
+
+function deleteCatch(ev) {
+    const id = ev.target.id;
+    const url = `http://localhost:3030/data/catches/${id}`;
+    const token = sessionStorage.getItem("accessToken");
+
+    const options = {
+        method: "DELETE",
+        headers: {
+            "Content-type": "application/json",
+            "X-Authorization": token
+    }
+
+    }
+
+    fetch(url, options).then(response => {
+        return response.json();
+    }).then(data => {
+        loadCatches();
+        return data;
+    }).catch(err => {
+        alert(err);
     })
 }
 
@@ -78,8 +187,15 @@ function createCatch(ev) {
     ev.preventDefault();
     const form = ev.target;
     const formData = new FormData(form);
-    const data = Object.fromEntries(formData)
+    const data = Object.fromEntries(formData);
+    const inputs = Object.values(data);
+    for (let input of inputs) {
+        if(input == '') {
+            return;
+        }
+    }
     onCreateCatch(data);
+    form.reset();
 }
 
 async function onCreateCatch(body) {
@@ -88,7 +204,6 @@ async function onCreateCatch(body) {
     const response = await fetch(url, header);
     const data = await response.json();
     return data;
-
 }
 
 function getHeader(method, body) {
