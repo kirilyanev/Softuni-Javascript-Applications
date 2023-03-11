@@ -22,14 +22,6 @@ function onLoadHTML() {
     const addBtn = document.querySelector('.add');
     const addCatchFieldset = document.querySelector('#addForm fieldset')
     document.querySelector('#catches').replaceChildren();
-    // TEST
-    // const catches = document.querySelectorAll('#catches .catch');
-    // console.log(catches);
-    // console.log(typeof catches);
-    // console.log(catches.length);
-    // catches.replaceChildren();
-
-
 
     if(token != null) {
         addCatchFieldset.disabled = false;
@@ -67,6 +59,9 @@ function loadCatches() {
     fetch(url).then(response => {
         return response.json();
     }).then(data => {
+        if(typeof data[Symbol.iterator] !== 'function') {
+            data = [data];
+        }
         for (let currCatch of data) {
             const div = document.createElement('div');
             div.classList = 'catch';
