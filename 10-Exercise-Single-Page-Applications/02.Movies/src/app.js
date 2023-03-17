@@ -1,5 +1,5 @@
 import { routes } from "./router.js";
-import { login, signUp } from "./authentication.js";
+import { login, signUp, logout } from "./authentication.js";
 
 const links = Array.from(document.querySelectorAll('.nav-link'));
 const logoutLink = links[1];
@@ -15,6 +15,7 @@ function onLoad() {
     
     if(token) {
         // TO DO
+        // registerLink.style.display = 'none';
     }
 }
 
@@ -22,7 +23,12 @@ function onLoad() {
 // LOGOUT
 
 logoutLink.addEventListener('click',()=> {
-    routes.showLogout()
+    routes.showHome();
+
+    const token = sessionStorage.getItem("accessToken");
+
+    logout(token);
+
 });
 
 

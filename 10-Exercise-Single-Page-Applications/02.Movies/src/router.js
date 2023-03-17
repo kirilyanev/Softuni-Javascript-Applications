@@ -2,7 +2,6 @@ const viewSections = Array.from(document.querySelectorAll('.view-section'));
 
 export const routes = {
     showHome: home,
-    showLogout: logout,
     showLogin: login,
     showRegister: register
 }
@@ -19,9 +18,6 @@ function register() {
     registerView.style.display = 'block';
 }
 
-function logout() {
-
-}
 
 function home() {
     viewSections.forEach(v => v.style.display = 'none');

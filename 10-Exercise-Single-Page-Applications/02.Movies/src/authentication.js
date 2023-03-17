@@ -61,3 +61,23 @@ export function signUp(email,password) {
         alert(err);
     })
 }
+
+
+export function logout(token) {
+    const url = 'http://localhost:3030/users/logout';
+    
+    const options = {
+        method: "GET",
+        headers: {
+            "Content-type": "application/json",
+            "X-Authorization": `${token}`
+        }
+    }
+
+    fetch(url,options).then(response=> {
+        console.log(response);
+        sessionStorage.clear();
+    }).catch(err => {
+        alert(err);
+    })
+}
