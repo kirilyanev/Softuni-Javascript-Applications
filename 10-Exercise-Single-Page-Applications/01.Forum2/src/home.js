@@ -10,10 +10,14 @@ section.remove();
 export async function showHome() {
     const topicContainer = section.querySelector('.topic-title');
 
-    const posts = await loadPosts();
-    const content = Object.values(posts).map(x => topicTemplate(x));
-    topicContainer.replaceChildren(...content);
-    main.replaceChildren(section);
+    try {
+        const posts = await loadPosts();
+        const content = Object.values(posts).map(x => topicTemplate(x));
+        topicContainer.replaceChildren(...content);
+        main.replaceChildren(section);
+    } catch (error) {
+        alert(error);
+    }
 }
 
 
@@ -24,7 +28,7 @@ function topicTemplate(data) {
     <div class="topic-name-wrapper">
         <div class="topic-name">
         <a href="#" class="normal" id="${data._id}">
-            <h2>${data.topicName}</h2>
+            <h2>${data.title}</h2>
         </a>
         <div class="columns">
             <div>
@@ -57,7 +61,13 @@ function onSubmit(ev) {
         return;
     };
 
-    createPost({ topicName, username, postText, date: new Date() });
+    const body = {
+        title: topicName,
+        username: username,
+        content: postText,
+        date: new Date()
+      }
+    createPost(body);
     form.reset();
 }
 
@@ -85,7 +95,11 @@ function createPost(bodyData) {
 async function loadPosts() {
     const url = 'http://localhost:3030/jsonstore/collections/myboard/posts';
 
-    const response = await fetch(url);
-    const posts = await response.json();
-    return posts;
+    try {
+        const response = await fetch(url);
+        const posts = await response.json();
+        return posts;
+    } catch (error) {
+        alert(error);
+    }
 }

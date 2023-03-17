@@ -87,7 +87,7 @@ describe('E2E tests', function () {
       expect(form.length).to.be.equal(data.length);
     });
 
-    it.only('Create post', async () => {
+    it('Create post', async () => {
       const data = mockData.posts[0];
       const { post } = await handle(endpoints.create);
       const { onRequest } = post();
@@ -101,12 +101,6 @@ describe('E2E tests', function () {
       const [request] = await Promise.all([onRequest(), page.click('.public')]);
 
       const postData = JSON.parse(request.postData());
-      console.log('This is test');
-      console.log(postData);
-      console.log(postData.title);
-      console.log(data.title);
-
-      await page.pause();
       expect(postData.title).to.equal(data.title);
       expect(postData.username).to.equal(data.username);
       expect(postData.content).to.contains(data.content);
@@ -123,11 +117,10 @@ describe('E2E tests', function () {
       await page.click(
         `.topic-container .topic-name-wrapper .topic-name >> a h2`
       );
-
       const form = await page.$$eval(
         '.container .theme-title >> .theme-name h2',
         (t) => t.map((i) => i.textContent)
-      );
+        );
 
       expect(form[0]).to.be.equal(data.title);
     });
