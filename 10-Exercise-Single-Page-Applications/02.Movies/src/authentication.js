@@ -22,6 +22,7 @@ export function login(email,password) {
     }).then(data => {
         const token = data.accessToken;
         sessionStorage.setItem('accessToken', token);
+        sessionStorage.setItem('email', data.email);
         window.location.href="./index.html";
 
         return data;
@@ -75,8 +76,11 @@ export function logout(token) {
     }
 
     fetch(url,options).then(response=> {
-        console.log(response);
+        if(response.status != 204) {
+            throw new Error("Failed to logout");
+        }
         sessionStorage.clear();
+        window.location.href="./index.html";
     }).catch(err => {
         alert(err);
     })

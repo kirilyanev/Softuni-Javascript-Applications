@@ -2,6 +2,7 @@ import { routes } from "./router.js";
 import { login, signUp, logout } from "./authentication.js";
 
 const links = Array.from(document.querySelectorAll('.nav-link'));
+const welcomeLink = links[0];
 const logoutLink = links[1];
 const loginLink = links[2];
 const registerLink = links[3];
@@ -12,10 +13,13 @@ function onLoad() {
     routes.showHome();
 
     const token = sessionStorage.getItem("accessToken");
+    const email = sessionStorage.getItem("email");
     
     if(token) {
         // TO DO
-        // registerLink.style.display = 'none';
+        registerLink.style.display = 'none';
+        loginLink.style.display = 'none';
+        welcomeLink.textContent = `Welcome, ${email}`;
     }
 }
 
@@ -35,7 +39,7 @@ logoutLink.addEventListener('click',()=> {
 // LOGIN
 
 loginLink.addEventListener('click',()=> {
-    routes.showLogin()
+    routes.showLogin();
     const loginForm = document.querySelector('#login-form');
     
     loginForm.addEventListener('submit', (e) =>{
