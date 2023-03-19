@@ -71,9 +71,7 @@ export function logout(token) {
     
     const options = {
         method: "GET",
-        headers: {
-            "X-Authorization": `${token}`
-        }
+        headers: {"X-Authorization": `${token}`}
     }
 
     fetch(url,options).then(response=> {

@@ -1,6 +1,6 @@
 import { routes } from "./router.js";
 import { login, signUp, logout } from "./authentication.js";
-import { displayMovies } from "./movies.js";
+import { displayMovies, addMovie, descriptionTemplate } from "./movies.js";
 
 // Nav links
 const links = Array.from(document.querySelectorAll('.nav-link'));
@@ -9,8 +9,22 @@ const logoutLink = links[1];
 const loginLink = links[2];
 const registerLink = links[3];
 
-const AddMovieBtn = document.getElementsByClassName('btn btn-warning')[0];
-console.log(AddMovieBtn);
+const catalog = document.querySelector('#movies-list');
+catalog.addEventListener('click', async (e) => {
+    if (e.target.tagName == 'BUTTON') {
+        const movieId = e.target.dataset.id;
+
+        routes.showDescription();
+        const descriptionElement = document.querySelector('div[data-id="description"]');
+        descriptionElement.replaceChildren();
+        descriptionElement.innerHTML = await descriptionTemplate(movieId);
+
+    } 
+});
+
+const addMovieBtn = document.getElementsByClassName('btn btn-warning')[0];
+addMovieBtn.style.display = 'none';
+
 onLoad();
 
 function onLoad() {
@@ -24,7 +38,15 @@ function onLoad() {
         // TO DO
         registerLink.style.display = 'none';
         loginLink.style.display = 'none';
+        addMovieBtn.style.display = 'inline-block';
         welcomeLink.textContent = `Welcome, ${email}`;
+
+        // ADD Movie
+        addMovieBtn.addEventListener('click', (e)=> {
+            e.preventDefault();
+            routes.showAddMovie();
+            addMovie();
+        });
     }
 }
 
