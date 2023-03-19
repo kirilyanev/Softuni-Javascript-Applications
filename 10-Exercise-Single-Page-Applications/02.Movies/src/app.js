@@ -1,6 +1,6 @@
 import { routes } from "./router.js";
 import { login, signUp, logout } from "./authentication.js";
-import { displayMovies, addMovie, descriptionTemplate } from "./movies.js";
+import { displayMovies, addMovie, createMovieCard, getMovies,getLikes, getOwnLike } from "./movies.js";
 
 // Nav links
 const links = Array.from(document.querySelectorAll('.nav-link'));
@@ -13,13 +13,15 @@ const catalog = document.querySelector('#movies-list');
 catalog.addEventListener('click', async (e) => {
     if (e.target.tagName == 'BUTTON') {
         const movieId = e.target.dataset.id;
-
+        const userId = sessionStorage.getItem("id");
+        const [movie,likes, ownLike] = await Promise.all([
+            getMovies(movieId),
+            getLikes(movieId),
+            getOwnLike(movieId,userId)
+        ])
         routes.showDescription();
-        const descriptionElement = document.querySelector('div[data-id="description"]');
-        descriptionElement.replaceChildren();
-        descriptionElement.innerHTML = await descriptionTemplate(movieId);
-
-    } 
+        createMovieCard(movie,likes,ownLike);
+    }
 });
 
 const addMovieBtn = document.getElementsByClassName('btn btn-warning')[0];
@@ -30,10 +32,15 @@ onLoad();
 function onLoad() {
     routes.showHome();
     displayMovies();
-
+    
     const token = sessionStorage.getItem("accessToken");
     const email = sessionStorage.getItem("email");
     
+    if(!token) {
+        welcomeLink.style.display = 'none';
+        logoutLink.style.display = 'none';
+    }
+        
     if(token) {
         // TO DO
         registerLink.style.display = 'none';
@@ -104,4 +111,3 @@ registerLink.addEventListener('click',()=> {
         signUp(email,password);
     })
 });
-

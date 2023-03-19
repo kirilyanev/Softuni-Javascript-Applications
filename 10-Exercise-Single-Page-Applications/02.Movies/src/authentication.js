@@ -23,6 +23,7 @@ export function login(email,password) {
         const token = data.accessToken;
         sessionStorage.setItem('accessToken', token);
         sessionStorage.setItem('email', data.email);
+        sessionStorage.setItem('id',data._id);
         window.location.href="./index.html";
 
         return data;
@@ -57,6 +58,7 @@ export function signUp(email,password) {
         const email = data.email
         sessionStorage.setItem('accessToken', token);
         sessionStorage.setItem('email', email);
+        sessionStorage.setItem('id',data._id);
         window.location.href="./index.html";
 
         return data;

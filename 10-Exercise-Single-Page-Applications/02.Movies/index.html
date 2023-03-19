@@ -143,12 +143,13 @@
       </section>
 
       <section id="edit-movie" class="view-section">
-        <form class="text-center border border-light p-5" action="#" method="">
+        <form data-id="edit-form" class="text-center border border-light p-5" action="#" method="">
           <h1>Edit Movie</h1>
           <div class="form-group">
             <label for="title">Movie Title</label>
             <input
               id="title"
+              data-id="edit-title"
               type="text"
               class="form-control"
               placeholder="Movie Title"
@@ -160,6 +161,7 @@
             <label for="description">Movie Description</label>
             <textarea
               class="form-control"
+              data-id="edit-description"
               placeholder="Movie Description..."
               name="description"
             ></textarea>
@@ -168,6 +170,7 @@
             <label for="imageUrl">Image url</label>
             <input
               id="imageUrl"
+              data-id="edit-img"
               type="text"
               class="form-control"
               placeholder="Image Url"
