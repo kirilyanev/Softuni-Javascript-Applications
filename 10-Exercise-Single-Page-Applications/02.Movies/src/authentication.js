@@ -51,10 +51,12 @@ export function signUp(email,password) {
         if(res.status == 409) {
             throw new Error('User with this email exists'); 
         };
-        return res.json()
+        return res.json();
     }).then(data => {
         const token = data.accessToken;
+        const email = data.email
         sessionStorage.setItem('accessToken', token);
+        sessionStorage.setItem('email', email);
         window.location.href="./index.html";
 
         return data;
@@ -70,7 +72,6 @@ export function logout(token) {
     const options = {
         method: "GET",
         headers: {
-            "Content-type": "application/json",
             "X-Authorization": `${token}`
         }
     }

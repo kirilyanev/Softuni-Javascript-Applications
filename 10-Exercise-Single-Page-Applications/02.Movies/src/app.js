@@ -1,16 +1,21 @@
 import { routes } from "./router.js";
 import { login, signUp, logout } from "./authentication.js";
+import { displayMovies } from "./movies.js";
 
+// Nav links
 const links = Array.from(document.querySelectorAll('.nav-link'));
 const welcomeLink = links[0];
 const logoutLink = links[1];
 const loginLink = links[2];
 const registerLink = links[3];
 
+const AddMovieBtn = document.getElementsByClassName('btn btn-warning')[0];
+console.log(AddMovieBtn);
 onLoad();
 
 function onLoad() {
     routes.showHome();
+    displayMovies();
 
     const token = sessionStorage.getItem("accessToken");
     const email = sessionStorage.getItem("email");
