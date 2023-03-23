@@ -19,7 +19,7 @@ async function onSubmit(event) {
     const password = formData.get('password');
 
     await login(email,password);
-
+    form.reset();
     context.updateNav();
     context.goTo('/catalog');
 

@@ -17,19 +17,20 @@ async function onSubmit(event) {
     const formData = new FormData(form);
     const { email, password, repeatPassword } = Object.fromEntries(formData);
     if (!email || !password || !repeatPassword) {
-        alert('Please fill all fields');
+        throw alert('Please fill all fields');
     }
     if (email.length < 3) {
-        alert('Email is too short');
+        throw alert('Email is too short');
     }
     if (password.length < 3) {
-        alert('Password is too short');
+        throw alert('Password is too short');
     }
     if (password != repeatPassword) {
-        alert('Passwords do not match');
+        throw alert('Passwords do not match');
     } else {
         await register(email, password);
         alert('Registration succesful');
+        form.reset();
         context.updateNav();
         context.goTo('/');
     }

@@ -3,7 +3,10 @@ const { chromium } = require('playwright-chromium');
 const { expect } = require('chai');
 
 const host = 'http://localhost:3000'; // Application host (NOT service host - that can be anything)
+
 const DEBUG = false;
+const interval = 500;
+const slowMo = 600;
 
 const mockData = require('./mock-data.json');
 const endpoints = {
@@ -98,7 +101,7 @@ describe('E2E tests', function () {
       await page.click('text=Dashboard');
       await page.waitForSelector('#dashboard-holder');
       await page.click('div.card:has-text("111111") >> text=Details');
-
+      
       const title = await page.textContent('h2');
       const desc = await page.textContent('p.idea-description');
       const img = await page.getAttribute('.det-img', 'src');

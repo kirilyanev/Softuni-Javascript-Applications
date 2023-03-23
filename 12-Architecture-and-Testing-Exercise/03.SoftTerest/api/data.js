@@ -18,6 +18,6 @@ export function ideaById(id) {
     return api.get(`${endpoints.ideaById}${id}`);
 }
 
-export async function deleteByIdea(id) {
+export async function deleteById(id) {
     return api.del(`${endpoints.ideaById}${id}`);
 }
