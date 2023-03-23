@@ -1,4 +1,4 @@
-const host = 'http://localhost:3030';
+const host = 'http://localhost:3030/';
 
 async function requester(method, url, data){
     const user = sessionStorage.getItem('user');
@@ -13,7 +13,7 @@ async function requester(method, url, data){
     }
 
     if (user) {
-        const token = user.accessToken;
+        const token = JSON.parse(user).accessToken;
         options.headers['X-Authorization'] = token;
     }
 
@@ -21,6 +21,7 @@ async function requester(method, url, data){
         const res = await fetch(`${host}${url}`,options);
         if (!res.ok) {
             if (res.status == 403) {
+                console.log(options);
                 sessionStorage.removeItem('user');
                 throw new Error('Access denied');
             }
