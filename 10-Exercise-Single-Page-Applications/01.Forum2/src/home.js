@@ -69,6 +69,7 @@ function onSubmit(ev) {
       }
     createPost(body);
     form.reset();
+    showHome();
 }
 
 function createPost(bodyData) {

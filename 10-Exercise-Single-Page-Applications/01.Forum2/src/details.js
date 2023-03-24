@@ -63,8 +63,6 @@ function topicTemplate(topic,comments) {
     const topicContainer = document.createElement('div');
     topicContainer.classList.add('theme-title');
 
-    console.log(themeContentWrapper);
-
     topicContainer.innerHTML = `
     <div class="theme-name-wrapper">
         <div class="theme-name">
@@ -86,11 +84,13 @@ function topicTemplate(topic,comments) {
     </div>`;
 
 
-    comments.forEach(x=> {
-        const comment = createComment(x);
-        commentContainer.appendChild(comment);
-    });
-    return topicContainer;
+    // comments.forEach(x=> {
+    //     const comment = createComment(x);
+    //     commentContainer.appendChild(comment);
+    // });
+    // return topicContainer;
+    commentTemplate(topic,comments);
+
 }
 
 function createComment(data) {
@@ -113,6 +113,7 @@ function onSubmit(e) {
     const formData = new FormData(form);
     const {postText, username} = Object.fromEntries(formData);
     createPost({postText, username, id, date: new Date()});
+    showDetails(e);
 }
 
 async function createPost(body) {

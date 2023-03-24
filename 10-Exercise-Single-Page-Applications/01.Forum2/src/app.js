@@ -5,4 +5,3 @@ showHome();
 const home = document.querySelector('nav a');
 home.addEventListener('click', showHome);
 
-
