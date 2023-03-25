@@ -1,0 +1,30 @@
+{
+  "name": "03.Search-in-List",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.html",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "mocha tests",
+    "start": "http-server -a localhost -p 3000 -P http://localhost:3000? -c-1",
+    "dev": "lite-server"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "http-server": "^14.1.1",
+    "lit-html": "^2.7.0",
+    "lite-server": "^2.6.1"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.32.1",
+    "@types/mocha": "^10.0.1",
+    "chai": "^4.3.7",
+    "http-server": "^14.1.1",
+    "mocha": "^10.2.0",
+    "playwright-chromium": "^1.32.1"
+  }
+}

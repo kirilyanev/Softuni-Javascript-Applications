@@ -1,4 +1,4 @@
-//@ts-check
+
 const { chromium } = require('playwright-chromium');
 const { expect } = require('chai');
 
@@ -6,6 +6,7 @@ const host = 'http://localhost:3000'; // Application host (NOT service host - th
 
 const DEBUG = false;
 const slowMo = 500;
+const interval = 300;
 
 let browser;
 let page;
