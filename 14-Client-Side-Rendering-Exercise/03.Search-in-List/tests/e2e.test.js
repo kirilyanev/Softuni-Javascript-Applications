@@ -4,7 +4,7 @@ const { expect } = require('chai');
 
 const host = 'http://localhost:3000'; // Application host (NOT service host - that can be anything)
 
-const DEBUG = false;
+const DEBUG = true;
 const slowMo = 500;
 const interval = 300;
 
@@ -12,7 +12,7 @@ let browser;
 let page;
 
 describe('E2E tests', function () {
-  this.timeout(6000);
+  this.timeout(8000);
 
   before(async () => {
     browser = await chromium.launch(DEBUG ? { headless: false, slowMo } : {});
