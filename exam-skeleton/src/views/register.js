@@ -4,9 +4,9 @@ import { createSubmitHandler } from '../data/util.js';
 
 
 // TODO Replace with actual view
-const registerTemplate = (onregister) => html`
+const registerTemplate = (onRegister) => html`
 <h1>Register Page</h1>
-<form @submit=${onregister}>
+<form @submit=${onRegister}>
     <label>Email: <input type="text" name="email"></label>
     <label>Password: <input type="password" name="password"></label>
     <label>Repeat: <input type="password" name="repass"></label>
